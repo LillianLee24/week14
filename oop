@@ -1,0 +1,255 @@
+//Этот код на Java сортирует массив чисел методом пузырьковой сортировки. 
+public class w13 {
+    public static void main(String[] args) {
+        double[] array = {64.3, 25.6, 12.8, 44.1, 98.7, 72.4, 18.5};
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array.length - i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    double temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+        }
+        System.out.println("Отсортированный массив:");
+        for (int i = 0; i < array.length; i++) {
+            System.out.println(array[i]);
+        }
+    }
+}
+
+
+
+
+//Этот код помогает оценить разницу во времени доступа к элементам между ArrayList 
+и LinkedList для заданных размеров списков и числа доступов. 
+import java.util.ArrayList;
+import java.util.LinkedList;
+public class w132 {
+    public static void compare2Lists() {
+        ArrayList<Double> arrayList = new ArrayList<>();
+        LinkedList<Double> linkedList = new LinkedList<>();
+        final int N = 1000000;
+        final int M = 1000;
+        for (int i = 0; i < N; i++) {
+            arrayList.add(Math.random());
+            linkedList.add(Math.random());
+        }
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < M; i++) {
+            arrayList.get((int) (Math.random() * (N - 1)));
+        }
+        System.out.println("Время доступа к элементам ArrayList: " + (System.currentTimeMillis() - startTime) + " мс");
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < M; i++) {
+            linkedList.get((int) (Math.random() * (N - 1)));
+        }
+        System.out.println("Время доступа к элементам LinkedList: " + (System.currentTimeMillis() - startTime) + " мс");
+    }
+
+    public static void main(String[] args) {
+        compare2Lists();
+    }
+}
+
+
+
+//Этот класс предоставляет возможность итерации (перебора) по элементам массива любого типа.
+Каждый раз, когда вызывается метод next(), возвращается следующий элемент массива, пока не будут перебраны все элементы.
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+class ArrayIterator<T> implements Iterator<T> {
+    private T[] array;
+    private int index = 0;
+    public ArrayIterator(T[] array) {
+        this.array = array;
+    }
+    @Override
+    public boolean hasNext() {
+        return index < array.length;
+    }
+    @Override
+    public T next() {
+        if (!hasNext())
+            throw new NoSuchElementException();
+        return array[index++];
+    }
+}
+
+
+
+//Этот код предполагает, что пользователь вводит значения, 
+а также количество квадратных метров, которые может покрыть одна банка краски. 
+После этого программа выводит количество банок краски, необходимых для покраски комнаты.
+import java.util.Scanner;
+public class week111 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int h = scanner.nextInt();
+        int w = scanner.nextInt();
+        int q = scanner.nextInt();
+        int s = scanner.nextInt();
+        int p = scanner.nextInt();
+        int k = scanner.nextInt();
+        int roomSurfaceArea = 2 * (a * h + b * h) - (w * q) - (s * p);
+        int paintCans = (int) Math.ceil((double) roomSurfaceArea / k);
+        System.out.println(paintCans);
+        scanner.close();
+    }
+}
+
+
+
+//Этот код находит приближенное решение уравнения func(x) = 0
+в заданном диапазоне [start, end] методом половинного деления и выводит результат на экран.
+public class week113 {
+    public static double func(double x) {
+        return Math.cos(Math.pow(x, 5)) + Math.pow(x, 4) - 345.3 * x - 23;
+    }
+    public static double solve(double start, double end) {
+        while (end - start > 0.001) {
+            double x = (start + end) / 2;
+            if (func(start) * func(x) > 0) {
+                start = x;
+            } else {
+                end = x;
+            }
+        }
+        return start;
+    }
+    public static void main(String[] args) {
+        System.out.println(solve(0, 10));
+    }
+}
+
+
+//Этот код позволяет нам быстро построить частотный словарь для русского текста, отображая количество встреченных букв каждого типа
+public class week114 {
+    public static void main(String[] args) {
+        String text = "Этот текст содержит несколько букв русского алфавита для построения частотного словаря.";
+        buildDictionary(text);
+    }
+    static void buildDictionary(String text) {
+        text = text.toLowerCase();
+        int[] result = new int[33];
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            if (ch >= 'а' && ch <= 'я') {
+                result[ch - 'а']++;
+            } else if (ch == 'ё') {
+                result[32]++;
+            }
+        }
+        for (char ch = 'а'; ch <= 'я'; ch++) {
+            System.out.println(ch + " = " + result[ch - 'а']);
+        }
+        System.out.println("ё = " + result[32]);
+    }
+}
+
+
+
+//код позволяет нам создать объект круга и вычислить его площадь, используя принцип полиморфизма и интерфейсы 
+interface Shape {
+    double calculateArea();
+}
+class Circle implements Shape {
+    private double radius;
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+    @Override
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+public class week117 {
+    public static void main(String[] args) {
+        Circle circle = new Circle(5);
+        System.out.println("Площадь круга: " + circle.calculateArea());
+    }
+}
+
+
+
+
+//создает массив из 100 случайных чисел типа double в диапазоне от 0 до 1 
+(используя метод Math.random()), а затем вычисляет и выводит следующие статистические характеристики этого массива:
+public class w134 {
+    public static void main(String[] args) {
+        int n = 100;
+        double[] array = new double[n];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = Math.random();
+        }
+        double max = array[0];
+        double min = array[0];
+        double avg = 0;
+        double sum = 0;
+        for (int i = 0; i < array.length; i++) {
+            if(max < array[i])
+                max = array[i];
+            if(min > array[i])
+                min = array[i];
+            sum += array[i];
+        }
+        avg = sum / array.length;
+        System.out.println("max = " + max);
+        System.out.println("min = " + min);
+        System.out.println("avg = " + avg);
+        System.out.println("sum = " + sum);
+    }
+}
+
+
+
+
+
+//вычисляет и выводит все простые числа от 2 до 100
+public class present {
+    public static void main(String[] args) {
+        for (int i = 2; i <= 100; i++) {
+            boolean isPrime = true;
+
+            for (int j = 2; j < i; j++) {
+                if (i % j == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+
+            if (isPrime) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+
+
+
+
+//мы решаем задачу подсчета количества вхождений подстроки в строку
+import java.util.Scanner;
+public class SubstringCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку: ");
+        String inputString = scanner.nextLine();
+        System.out.print("Введите подстроку: ");
+        String substring = scanner.nextLine();
+        int count = countSubstringOccurrences(inputString, substring);
+        System.out.println("Количество вхождений подстроки \"" + substring + "\" в строку: " + count);
+        scanner.close();
+    }
+    public static int countSubstringOccurrences(String text, String pattern) {
+        int count = 0;
+        int index = 0;
+        while ((index = text.indexOf(pattern, index)) != -1) {
+            index += pattern.length();
+            count++;
+        }
+        return count;
+    }
+}
